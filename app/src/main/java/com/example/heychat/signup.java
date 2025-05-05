@@ -22,7 +22,7 @@ public class signup extends AppCompatActivity {
     TextView backToLogin;
     Button signUp;
     EditText SignUpEmail, SignUpPass, SignUpUserName;
-
+    DatabaseHelper myDB;
 
 
 
@@ -32,6 +32,7 @@ public class signup extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
 
+        myDB = new DatabaseHelper(this);
 
         signUp = findViewById(R.id.buttonSignUp);
         SignUpEmail = findViewById(R.id.etSignUpEmail);
@@ -50,7 +51,13 @@ public class signup extends AppCompatActivity {
                     Toast.makeText(signup.this, "Please Fill all the Fields", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    boolean isInserted = myDB.insertData(email, password, username);
 
+                    if(isInserted){
+                        Toast.makeText(signup.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(signup.this, "Unable to Create New Account", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
