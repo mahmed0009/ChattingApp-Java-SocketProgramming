@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".chatWin">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:id="@+id/ll1"
+        android:gravity="center" >
+
+
+        <TextView
+            android:id="@+id/recievername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adnan Love"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="19dp"
+            android:layout_margin="13dp"/>
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="502dp"
+        android:layout_below="@+id/ll1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:padding="13dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58.50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="2.60dp"
+        android:layout_marginBottom="40.60dp"
+        android:layout_marginEnd="2.60dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="45.50dp"
+            app:cardBackgroundColor="#90E"
+            app:cardCornerRadius="20.50dp"
+            android:layout_marginStart="6.50dp"
+            android:layout_marginEnd="9.10dp"
+            android:layout_weight="1">
+
+            <EditText
+                android:layout_width="338dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textSize="15dp"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Type the message..."
+                android:padding="13.00dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="100.50dp"
+            android:layout_height="45.50dp"
+            app:cardBackgroundColor="#90E"
+            app:cardCornerRadius="20.50dp"
+            android:layout_marginStart="6.50dp"
+            android:layout_marginEnd="6.50dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="19.50dp"
+                android:layout_height="19.50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/sendbut"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
