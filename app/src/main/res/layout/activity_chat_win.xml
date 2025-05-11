@@ -60,6 +60,7 @@
             android:layout_weight="1">
 
             <EditText
+                android:id="@+id/textmsg"
                 android:layout_width="338dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
@@ -73,6 +74,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/sendbtn"
             android:layout_width="100.50dp"
             android:layout_height="45.50dp"
             app:cardBackgroundColor="#90E"
