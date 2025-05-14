@@ -1,5 +1,6 @@
 package com.example.heychat;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewholder> {
         Users users = usersArrayList.get(position);
         holder.userName.setText(users.Username);
         holder.userStatus.setText(users.status);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mainActivity, chatWin.class);
+                intent.putExtra("nameeee", users.getUsername());
+                intent.putExtra("uid",users.getUserID());
+                mainActivity.startActivity(intent);
+            }
+        });
     }
 
     @Override

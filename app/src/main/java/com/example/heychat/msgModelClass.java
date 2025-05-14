@@ -2,14 +2,16 @@ package com.example.heychat;
 
 public class msgModelClass {
     String message;
-    String senderemail;
+    String senderId;
+    Long timeStamp;
 
     public msgModelClass() {
     }
 
-    public msgModelClass(String message, String senderemail) {
+    public msgModelClass(String message, String senderId, Long timeStamp) {
         this.message = message;
-        this.senderemail = senderemail;
+        this.senderId = senderId;
+        this.timeStamp = timeStamp;
     }
 
     public String getMessage() {
@@ -20,11 +22,19 @@ public class msgModelClass {
         this.message = message;
     }
 
-    public String getSenderid() {
-        return senderemail;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setSenderid(String senderemail) {
-        this.senderemail = senderemail;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

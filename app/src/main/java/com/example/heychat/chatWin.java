@@ -7,21 +7,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class chatWin extends AppCompatActivity {
 
-    String recieverName;
-    String recieverEmail;
-    TextView recieverNName;
-
+    String reciverName, reciverUid, senderUid;
+    TextView reciverNName;
 
     CardView sendBtn;
     EditText textMsg;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
+
+    String senderRoom, reciverRoom;
+    RecyclerView mmessageAdpter;
+    ArrayList<msgModelClass> messagesArrayList;
+    messagesAdapter messagesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +47,80 @@ public class chatWin extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chat_win);
 
+        // Initialize Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+
+        // Initialize variables
+        messagesArrayList = new ArrayList<>();
+
+        // Get data from intent
+        reciverName = getIntent().getStringExtra("nameeee");
+        reciverUid = getIntent().getStringExtra("uid");
+        senderUid = firebaseAuth.getUid();
+
+        // Chat room names
+        senderRoom = senderUid + reciverUid;
+        reciverRoom = reciverUid + senderUid;
+
+        // Initialize views
+        mmessageAdpter = findViewById(R.id.msgadpter);
         sendBtn = findViewById(R.id.sendbtn);
         textMsg = findViewById(R.id.textmsg);
+        reciverNName = findViewById(R.id.recievername);  // ✅ Corrected ID
 
+        reciverNName.setText(reciverName);
 
-        recieverName = getIntent().getStringExtra("nameeee");
-        recieverEmail = getIntent().getStringExtra("emailll");
-        recieverNName = findViewById(R.id.recievername);
+        // RecyclerView setup
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        mmessageAdpter.setLayoutManager(linearLayoutManager);
 
+        messagesAdapter = new messagesAdapter(chatWin.this, messagesArrayList);
+        mmessageAdpter.setAdapter(messagesAdapter);
 
-        recieverNName.setText("" + recieverName);
+        // Listen for messages in senderRoom
+        DatabaseReference messageRef = database.getReference().child("chats").child(senderRoom).child("message");
 
+        messageRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messagesArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    msgModelClass messages = dataSnapshot.getValue(msgModelClass.class);
+                    messagesArrayList.add(messages);
+                }
+                messagesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // Send button functionality
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = textMsg.getText().toString();
-                if(message.isEmpty()){
+                String message = textMsg.getText().toString().trim();
+
+                if (message.isEmpty()) {
                     Toast.makeText(chatWin.this, "Enter the message first", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
                 textMsg.setText("");
-                msgModelClass messages = new msgModelClass(message, recieverEmail);
+                Date date = new Date();
+                msgModelClass messages = new msgModelClass(message, senderUid, date.getTime());
+
+                database.getReference().child("chats").child(senderRoom).child("message").push().setValue(messages)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                database.getReference().child("chats").child(reciverRoom).child("message").push().setValue(messages);
+                            }
+                        });
             }
         });
     }
