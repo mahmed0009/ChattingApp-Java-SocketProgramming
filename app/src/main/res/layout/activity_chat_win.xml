@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:layout_marginTop="40dp"
         android:id="@+id/ll1"
+        android:background="#90E"
         android:gravity="center" >
 
 
@@ -21,9 +22,9 @@
             android:id="@+id/recievername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adnan Love"
+            android:text="Reciver Name"
             android:gravity="left"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:fontFamily="@font/poppins_regular"
             android:textSize="19dp"
             android:layout_margin="13dp"/>
