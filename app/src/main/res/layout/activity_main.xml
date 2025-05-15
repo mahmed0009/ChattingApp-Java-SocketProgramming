@@ -38,16 +38,7 @@
             android:textSize="@dimen/_20sdp" />
 
         <ImageView
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:background="@drawable/chat">
-
-        </ImageView>
-
-
-        <ImageView
+            android:id="@+id/settingBut"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
             android:layout_gravity="center"

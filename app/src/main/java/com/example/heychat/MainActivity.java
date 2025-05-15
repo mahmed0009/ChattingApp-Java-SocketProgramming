@@ -39,13 +39,17 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;    //for sql
     ArrayList<Users> usersArrayList;
 
+    ImageView settingButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
         imgLogout = findViewById(R.id.logoutMainImg);
+        settingButton = findViewById(R.id.settingBut);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -104,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
                 });
                 dialog.show();
 
+            }
+        });
+
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, setting.class);
+                startActivity(intent);
             }
         });
 
